@@ -1,0 +1,91 @@
+version: "3.9"
+services:
+  master:
+    image: redis
+    container_name: master
+    restart: always
+    ports:
+      - "6379:6379"
+    privileged: true
+    environment:
+      - TZ=Asia/Shanghai
+    command: redis-server /etc/redis/redis.conf
+    volumes:
+      - "./data/master:/data"
+      - "./log/master:/home/log"
+      - "./conf/master/redis.conf:/etc/redis/redis.conf"
+
+  slave1:
+    image: redis
+    container_name: slave1
+    restart: always
+    ports:
+      - "6380:6380"
+    privileged: true
+    environment:
+      - TZ=Asia/Shanghai
+    command: redis-server /etc/redis/redis.conf
+    volumes:
+      - "./data/slave1:/data"
+      - "./log/slave1:/home/log"
+      - "./conf/slave1/redis.conf:/etc/redis/redis.conf"
+
+  slave2:
+    image: redis
+    container_name: slave2
+    restart: always
+    ports:
+      - "6381:6381"
+    privileged: true
+    environment:
+      - TZ=Asia/Shanghai
+    command: redis-server /etc/redis/redis.conf
+    volumes:
+      - "./data/slave2:/data"
+      - "./log/slave2:/home/log"
+      - "./conf/slave2/redis.conf:/etc/redis/redis.conf"
+  
+  sentinel1:
+    image: redis
+    container_name: sentinel1
+    restart: always
+    ports:
+      - "26379:26379"
+    privileged: true
+    environment:
+      - TZ=Asia/Shanghai
+    command: redis-sentinel /usr/local/etc/redis/sentinel.conf
+    volumes:
+      - ./data/sentinel1:/data
+      - ./conf/sentinel1/sentinel.conf:/usr/local/etc/redis/sentinel.conf
+      - ./log/sentinel1:/home/log
+
+  sentinel2:
+    image: redis
+    container_name: sentinel2
+    restart: always
+    ports:
+      - "26380:26380"
+    privileged: true
+    environment:
+      - TZ=Asia/Shanghai
+    command: redis-sentinel /usr/local/etc/redis/sentinel.conf
+    volumes:
+      - ./data/sentinel2:/data
+      - ./conf/sentinel2/sentinel.conf:/usr/local/etc/redis/sentinel.conf
+      - ./log/sentinel2:/home/log
+
+  sentinel3:
+    image: redis
+    container_name: sentinel3
+    restart: always
+    ports:
+      - "26381:26381"
+    privileged: true
+    environment:
+      - TZ=Asia/Shanghai
+    command: redis-sentinel /usr/local/etc/redis/sentinel.conf
+    volumes:
+      - ./data/sentinel3:/data
+      - ./conf/sentinel3/sentinel.conf:/usr/local/etc/redis/sentinel.conf
+      - ./log/sentinel3:/home/log
